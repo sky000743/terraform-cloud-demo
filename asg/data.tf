@@ -11,7 +11,7 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
-# Finds Ubuntu AMI 
+# Finds Ubuntu AMI for the Asg
 data "aws_ami" "ubuntu" {
   most_recent = true
 
