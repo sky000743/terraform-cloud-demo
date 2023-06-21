@@ -22,38 +22,6 @@ module "asg" {
   enable_monitoring = true
 }
 
-
-
-
-resource "aws_elb" "bar" {
-  name = "foobar-terraform-elbs"
-  availability_zones = data.terraform_remote_state.vpc.outputs.azs
-  subnets = data.terraform_remote_state.vpc.outputs.public_subnets
-  security_groups = [aws_security_group.lb-firewall.id]
-
-
-listener {
-instance_port = 80
-instance_protocol = "http"
-lb_port = 80
-lb_protocol = "http"
-}
-
-
-health_check {
-healthy_threshold = 2
-unhealthy_threshold = 2
-timeout = 3
-target = "TCP:80"
-interval = 30
-}
-
-cross_zone_load_balancing = true
-idle_timeout = 400
-connection_draining = true
-connection_draining_timeout = 400
-}
-
 resource "aws_security_group" "lb-firewall" {
   name        = "lb-firewall"
   description = "Allow TLS inbound traffic"
@@ -84,3 +52,35 @@ resource "aws_security_group" "lb-firewall" {
   }
 }
 
+
+
+resource "aws_elb" "bar" {
+  name = "foobar-terraform-elbs"
+  subnets = data.terraform_remote_state.vpc.outputs.public_subnets
+  security_groups = [aws_security_group.lb-firewall.id]
+
+
+listener {
+instance_port = 80
+instance_protocol = "http"
+lb_port = 80
+lb_protocol = "http"
+}
+
+
+health_check {
+healthy_threshold = 2
+unhealthy_threshold = 2
+timeout = 3
+target = "TCP:80"
+interval = 30
+}
+
+cross_zone_load_balancing = true
+idle_timeout = 400
+connection_draining = true
+connection_draining_timeout = 400
+
+
+
+}
