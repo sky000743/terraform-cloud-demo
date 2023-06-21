@@ -26,7 +26,7 @@ resource "aws_elb" "bar" {
   name = "foobar-terraform-elbs"
   availability_zones = data.terraform_remote_state.vpc.outputs.azs
   subnets = data.terraform_remote_state.vpc.outputs.public_subnets
-  security_groups = [aws_security_group.asg-sec-group.id]
+  security_groups = aws_security_group.asg-sec-group.id
 
 
 listener {
@@ -80,3 +80,5 @@ resource "aws_security_group" "lb-firewall" {
     ipv6_cidr_blocks = ["::/0"]
   }
 }
+
+Z075058929SGSID3FFSI6
