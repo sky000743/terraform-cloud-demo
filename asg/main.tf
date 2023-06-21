@@ -81,4 +81,3 @@ resource "aws_security_group" "lb-firewall" {
   }
 }
 
-Z075058929SGSID3FFSI6
